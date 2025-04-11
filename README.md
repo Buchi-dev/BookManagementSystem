@@ -2,8 +2,6 @@
 
 A beginner-friendly full-stack application for managing a library of books with a React frontend and Node.js backend.
 
-![Book Management System](https://via.placeholder.com/800x400?text=Book+Management+System)
-
 ## Project Overview
 
 This project demonstrates a simple but complete web application that allows users to:
