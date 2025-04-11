@@ -1,3 +1,10 @@
+/**
+ * Navbar Component
+ * 
+ * This component creates the navigation bar that appears at the top of each page.
+ * It includes the app title and navigation links.
+ */
+
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -17,7 +24,7 @@ function Navbar() {
     <AppBar position="sticky" sx={{ backgroundColor: '#d14959' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* Left section - Logo and Title */}
+          {/* Left section - App Logo and Title */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <LocalLibraryIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
@@ -37,8 +44,9 @@ function Navbar() {
             </Typography>
           </Box>
 
-          {/* Middle section - Home button */}
+          {/* Middle section - Navigation Buttons */}
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            {/* Home Button */}
             <Button
               component={RouterLink}
               to="/"
@@ -56,10 +64,8 @@ function Navbar() {
             >
               Home
             </Button>
-          </Box>
-
-          {/* Right section - Add Books button */}
-          <Box>
+            
+            {/* Add Books Button */}
             <Button
               component={RouterLink}
               to="/addbooks"
@@ -75,9 +81,12 @@ function Navbar() {
               }}
               startIcon={<AddIcon />}
             >
-              Add Books
+              Add Book
             </Button>
           </Box>
+          
+          {/* Right section - empty for now, could add user profile or settings later */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '150px' }} />
         </Toolbar>
       </Container>
     </AppBar>

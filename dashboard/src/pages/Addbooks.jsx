@@ -1,3 +1,10 @@
+/**
+ * AddBooks Component
+ * 
+ * This component provides a form to add new books to the library system.
+ * It handles form input, validation, and API communication.
+ */
+
 import React, { useState, useRef, useEffect } from 'react';
 import Navbar from './Navbar';
 import {
@@ -14,6 +21,8 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function AddBooks() {
+  // ===== STATE VARIABLES =====
+  // Form data for the new book
   const [bookData, setBookData] = useState({
     bookId: '',
     title: '',
@@ -21,41 +30,64 @@ function AddBooks() {
     publicationYear: ''
   });
   
+  // Messages to display to the user
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  
+  // ===== REFS =====
+  // Reference to the form element (for focusing inputs)
   const formRef = useRef(null);
+  // API endpoint for adding books
   const apiUrl = useRef('http://localhost:1337/books');
 
-  // Check if server is available
+  // ===== EFFECTS =====
+  // Check if server is running when component loads
   useEffect(() => {
     const checkServer = async () => {
       try {
+        // Try to connect to the server
         const response = await fetch('http://localhost:1337');
         if (!response.ok) {
           setErrorMessage('Server is not responding correctly. Check server status.');
         }
       } catch {
+        // Handle connection errors
         setErrorMessage('Cannot connect to server. Please make sure the server is running.');
       }
     };
     
+    // Run the server check
     checkServer();
-  }, []);
+  }, []); // Empty array means this only runs once when component mounts
 
+  // ===== EVENT HANDLERS =====
+  /**
+   * Handle changes to any form input
+   * @param {Object} e - The input change event
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Update the form data state with the new value
     setBookData(prev => ({
       ...prev,
       [name]: value
     }));
   };
 
+  /**
+   * Handle form submission to add a new book
+   * @param {Object} e - The form submit event
+   */
   const handleSubmit = async (e) => {
+    // Prevent the default form submission behavior
     e.preventDefault();
+    
+    // Clear any existing messages
     setSuccessMessage('');
     setErrorMessage('');
     
     try {
+      // Send the book data to the server
       const response = await fetch(apiUrl.current, {
         method: 'POST',
         headers: {
@@ -64,19 +96,25 @@ function AddBooks() {
         body: JSON.stringify(bookData),
       });
       
+      // Check if the request was successful
       if (!response.ok) {   
         try {
+          // Try to get detailed error from response
           const errorData = await response.json();
           throw new Error(errorData.error || `Failed to add book: ${response.status}`);
         } catch {     
+          // Fallback error message if can't parse response
           throw new Error(`Server error (${response.status}). Make sure the server is running.`);
         }
       }
       
-      await response.json(); // Process response but don't store it
+      // Get the response data (we don't use it but need to await it)
+      await response.json();
       
+      // Show success message
       setSuccessMessage('Book added successfully!');
       
+      // Reset the form to empty values
       setBookData({
         bookId: '',
         title: '',
@@ -84,15 +122,18 @@ function AddBooks() {
         publicationYear: ''
       });
       
+      // Focus the first input field for adding another book
       if (formRef.current) {
         const firstInput = formRef.current.querySelector('input');
         if (firstInput) firstInput.focus();
       }
       
+      // Auto-hide the success message after 3 seconds
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000);
     } catch (err) {
+      // Handle errors
       if (err.name === 'TypeError' && err.message.includes('Failed to fetch')) {
         setErrorMessage('Cannot connect to server. Please make sure the server is running.');
       } else {
@@ -102,10 +143,14 @@ function AddBooks() {
     }
   };
 
+  // ===== COMPONENT RENDER =====
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8f8f8' }}>
+      {/* Navigation bar at the top */}
       <Navbar />
+      
       <Container maxWidth="md" sx={{ py: 4 }}>
+        {/* Page title */}
         <Typography 
           variant="h4" 
           component="h1" 
@@ -120,6 +165,7 @@ function AddBooks() {
           Add New Book
         </Typography>
         
+        {/* Success message popup */}
         <Snackbar
           open={!!successMessage}
           autoHideDuration={3000}
@@ -131,6 +177,7 @@ function AddBooks() {
           </Alert>
         </Snackbar>
         
+        {/* Error message display */}
         {errorMessage && (
           <Alert 
             severity="error" 
@@ -141,6 +188,7 @@ function AddBooks() {
           </Alert>
         )}
         
+        {/* Book entry form */}
         <Paper 
           component="form" 
           onSubmit={handleSubmit} 
@@ -153,6 +201,7 @@ function AddBooks() {
           }}
         >
           <Stack spacing={3}>
+            {/* Book ID field */}
             <TextField
               fullWidth
               id="bookId"
@@ -186,6 +235,7 @@ function AddBooks() {
               }}
             />
             
+            {/* Book Title field */}
             <TextField
               fullWidth
               id="title"
@@ -219,6 +269,7 @@ function AddBooks() {
               }}
             />
             
+            {/* Book Author field */}
             <TextField
               fullWidth
               id="author"
@@ -252,13 +303,14 @@ function AddBooks() {
               }}
             />
             
+            {/* Book Publication Year field */}
             <TextField
               fullWidth
               id="publicationYear"
               name="publicationYear"
               label="Publication Year"
-              type="number"
               variant="outlined"
+              type="number"
               value={bookData.publicationYear}
               onChange={handleChange}
               required
@@ -286,18 +338,20 @@ function AddBooks() {
               }}
             />
             
+            {/* Submit button */}
             <Button
               type="submit"
               variant="contained"
+              size="large"
               startIcon={<AddCircleIcon />}
               sx={{
                 bgcolor: '#d14959',
                 color: 'white',
-                fontSize: '1rem',
-                py: 1.5,
                 '&:hover': {
-                  bgcolor: '#b83c4b',
+                  bgcolor: '#c13949',
                 },
+                py: 1.5,
+                fontSize: '1rem',
               }}
             >
               Add Book
