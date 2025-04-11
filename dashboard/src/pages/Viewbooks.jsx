@@ -19,11 +19,15 @@ import {
   TableRow,
   CircularProgress,
   Alert,
-  Box
+  Box,
+  useTheme
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 
 function ViewBooks() {
+  // Get theme for consistent styling
+  const theme = useTheme();
+  
   // ===== STATE VARIABLES =====
   // Books data from the server
   const [books, setBooks] = useState([]);
@@ -105,7 +109,7 @@ function ViewBooks() {
 
   // ===== COMPONENT RENDER =====
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f8f8f8' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: theme.palette.background.default }}>
       {/* Navigation bar at the top */}
       <Navbar />
       
@@ -117,9 +121,9 @@ function ViewBooks() {
           sx={{ 
             mb: 3, 
             fontWeight: 'bold', 
-            color: '#000000',
+            color: theme.palette.text.primary,
             pb: 1,
-            borderBottom: '2px solid #d14959'
+            borderBottom: `2px solid ${theme.palette.primary.main}`
           }}
         >
           Library Books
@@ -144,7 +148,7 @@ function ViewBooks() {
         {loading ? (
           // LOADING STATE: Show spinner while loading
           <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-            <CircularProgress color="error" />
+            <CircularProgress color="primary" />
           </Box>
         ) : books.length === 0 ? (
           // EMPTY STATE: No books found
@@ -153,11 +157,11 @@ function ViewBooks() {
             sx={{ 
               p: 3, 
               textAlign: 'center',
-              bgcolor: 'white',
+              bgcolor: theme.palette.background.paper,
               borderRadius: 2
             }}
           >
-            <InfoIcon sx={{ fontSize: 48, color: '#d14959', mb: 2 }} />
+            <InfoIcon sx={{ fontSize: 48, color: theme.palette.primary.main, mb: 2 }} />
             <Typography variant="h6">
               No books available. Add some books to get started!
             </Typography>
@@ -197,7 +201,7 @@ function ViewBooks() {
                     <TableCell 
                       colSpan={4} 
                       align="center"
-                      sx={{ py: 3, fontStyle: 'italic', color: '#666' }}
+                      sx={{ py: 3, fontStyle: 'italic', color: theme.palette.text.secondary }}
                     >
                       No books to display
                     </TableCell>

@@ -16,11 +16,15 @@ import {
   Paper,
   Alert,
   Snackbar,
-  Stack
+  Stack,
+  useTheme
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function AddBooks() {
+  // Get theme for consistent styling
+  const theme = useTheme();
+  
   // ===== STATE VARIABLES =====
   // Form data for the new book
   const [bookData, setBookData] = useState({
@@ -145,7 +149,7 @@ function AddBooks() {
 
   // ===== COMPONENT RENDER =====
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f8f8f8' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: theme.palette.background.default }}>
       {/* Navigation bar at the top */}
       <Navbar />
       
@@ -157,9 +161,9 @@ function AddBooks() {
           sx={{ 
             mb: 3, 
             fontWeight: 'bold', 
-            color: '#000000',
+            color: theme.palette.text.primary,
             pb: 1,
-            borderBottom: '2px solid #d14959'
+            borderBottom: `2px solid ${theme.palette.primary.main}`
           }}
         >
           Add New Book
@@ -197,7 +201,7 @@ function AddBooks() {
           sx={{ 
             p: 4, 
             borderRadius: 2,
-            bgcolor: 'white',
+            bgcolor: theme.palette.background.paper,
           }}
         >
           <Stack spacing={3}>
@@ -211,28 +215,6 @@ function AddBooks() {
               value={bookData.bookId}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: '#ddd',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '& input': {
-                    color: '#000000',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: '#d14959',
-                },
-              }}
             />
             
             {/* Book Title field */}
@@ -245,28 +227,6 @@ function AddBooks() {
               value={bookData.title}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: '#ddd',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '& input': {
-                    color: '#000000',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: '#d14959',
-                },
-              }}
             />
             
             {/* Book Author field */}
@@ -279,28 +239,6 @@ function AddBooks() {
               value={bookData.author}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: '#ddd',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '& input': {
-                    color: '#000000',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: '#d14959',
-                },
-              }}
             />
             
             {/* Book Publication Year field */}
@@ -314,28 +252,6 @@ function AddBooks() {
               value={bookData.publicationYear}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: '#ddd',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#d14959',
-                  },
-                  '& input': {
-                    color: '#000000',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: '#d14959',
-                },
-              }}
             />
             
             {/* Submit button */}
@@ -345,11 +261,6 @@ function AddBooks() {
               size="large"
               startIcon={<AddCircleIcon />}
               sx={{
-                bgcolor: '#d14959',
-                color: 'white',
-                '&:hover': {
-                  bgcolor: '#c13949',
-                },
                 py: 1.5,
                 fontSize: '1rem',
               }}

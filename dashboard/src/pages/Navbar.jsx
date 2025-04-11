@@ -13,15 +13,19 @@ import {
   Typography,
   Button,
   Container,
-  Box
+  Box,
+  useTheme
 } from '@mui/material';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 
 function Navbar() {
+  // Get theme for consistent styling
+  const theme = useTheme();
+  
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: '#d14959' }}>
+    <AppBar position="sticky" sx={{ backgroundColor: theme.palette.primary.main }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {/* Left section - App Logo and Title */}
@@ -36,7 +40,7 @@ function Navbar() {
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'Poppins',
                 fontWeight: 700,
-                color: '#000000',
+                color: theme.palette.text.primary,
                 textDecoration: 'none',
               }}
             >
@@ -52,7 +56,7 @@ function Navbar() {
               to="/"
               sx={{ 
                 my: 2, 
-                color: '#000000',
+                color: theme.palette.text.primary,
                 fontWeight: 'bold',
                 display: 'flex',
                 alignItems: 'center',
@@ -71,7 +75,7 @@ function Navbar() {
               to="/addbooks"
               sx={{ 
                 my: 2, 
-                color: '#000000',
+                color: theme.palette.text.primary,
                 fontWeight: 'bold',
                 display: 'flex',
                 alignItems: 'center',
