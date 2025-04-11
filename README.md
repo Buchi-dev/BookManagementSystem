@@ -96,11 +96,18 @@ Open [http://localhost:5173](http://localhost:5173) to view the application
 - Built with Express.js
 - Uses a simple JSON file (`books.json`) as a database
 - Provides RESTful API endpoints:
+
+  Standard API routes:
   - `GET /books` - Get all books
   - `GET /books/:id` - Get a specific book by ID
   - `POST /books` - Add a new book
   - `PUT /books/:id` - Update an existing book
   - `DELETE /books/:id` - Delete a book
+  
+  Beginner-friendly API routes (do the same thing but with more intuitive naming):
+  - `GET /bookGet` - Get all books
+  - `GET /bookGet/:id` - Get a specific book by ID
+  - `POST /bookAdd` - Add a new book
 
 ### Frontend (dashboard)
 
@@ -109,6 +116,7 @@ Open [http://localhost:5173](http://localhost:5173) to view the application
 - Features multiple pages through React Router:
   - Home page (`/`) - Shows a list of all books
   - Add Book page (`/addbooks`) - Form to add a new book
+- Uses the beginner-friendly API endpoints for better code readability
 
 ## Learning Resources
 

@@ -33,8 +33,8 @@ function ViewBooks() {
   const [error, setError] = useState(null);
   
   // ===== CONSTANTS =====
-  // API URL to fetch books from
-  const apiUrl = useRef('http://localhost:1337/books');
+  // API URL to fetch books from (using the new beginner-friendly endpoint)
+  const apiUrl = useRef('http://localhost:1337/bookGet');
   
   // ===== EFFECTS =====
   // This effect runs once when the component is first loaded

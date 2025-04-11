@@ -37,8 +37,8 @@ function AddBooks() {
   // ===== REFS =====
   // Reference to the form element (for focusing inputs)
   const formRef = useRef(null);
-  // API endpoint for adding books
-  const apiUrl = useRef('http://localhost:1337/books');
+  // API endpoint for adding books (using the new beginner-friendly endpoint)
+  const apiUrl = useRef('http://localhost:1337/bookAdd');
 
   // ===== EFFECTS =====
   // Check if server is running when component loads

@@ -94,10 +94,15 @@ app.get('/', (req, res) => {
 
 /**
  * GET /books - Retrieve all books
+ * GET /bookGet - Alternative route for retrieving all books (beginner-friendly naming)
  * 
  * Returns an array of all book objects
  */
-app.get('/books', (req, res) => {
+app.get('/books', getAllBooks);
+app.get('/bookGet', getAllBooks);
+
+// Function to handle getting all books (reused by both routes)
+function getAllBooks(req, res) {
     try {
         const books = readBooks();
         // Ensure we're always returning an array
@@ -107,13 +112,14 @@ app.get('/books', (req, res) => {
         }
         return res.json(books);
     } catch (error) {
-        console.error('Error in /books route:', error);
+        console.error('Error in book retrieval route:', error);
         return res.status(500).json({ error: 'Server error' });
     }
-});
+}
 
 /**
  * GET /books/:id - Get a specific book by ID
+ * GET /bookGet/:id - Alternative route for getting a specific book (beginner-friendly naming)
  * 
  * Path parameter:
  * - id: The book ID to find
@@ -122,7 +128,11 @@ app.get('/books', (req, res) => {
  * - 200 OK with book object if found
  * - 404 Not Found if book with ID doesn't exist
  */
-app.get('/books/:id', (req, res) => {
+app.get('/books/:id', getBookById);
+app.get('/bookGet/:id', getBookById);
+
+// Function to handle getting a book by ID (reused by both routes)
+function getBookById(req, res) {
     const books = readBooks();
     const book = books.find(b => b.bookId === req.params.id);
     
@@ -131,10 +141,11 @@ app.get('/books/:id', (req, res) => {
     }
     
     res.json(book);
-});
+}
 
 /**
- * POST /books - Create a new book
+ * POST /books - Create a new book (original route)
+ * POST /bookAdd - Alternative route for adding a book (beginner-friendly naming)
  * 
  * Request body: 
  * {
@@ -150,7 +161,11 @@ app.get('/books/:id', (req, res) => {
  * - 400 Bad Request if book ID already exists
  * - 500 Server Error if failed to save
  */
-app.post('/books', (req, res) => {
+app.post('/books', addNewBook);
+app.post('/bookAdd', addNewBook);
+
+// Function to handle adding a new book (reused by both routes)
+function addNewBook(req, res) {
     const { bookId, title, author, publicationYear } = req.body;
     
     // Validate required fields
@@ -180,8 +195,7 @@ app.post('/books', (req, res) => {
     } else {
         res.status(500).json({ error: 'Failed to save book' });
     }
-});
-
+}
 
 // ===== START SERVER =====
 const PORT = 1337;
