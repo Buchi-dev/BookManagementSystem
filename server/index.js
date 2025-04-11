@@ -98,7 +98,7 @@ app.get('/', (req, res) => {
  * 
  * Returns an array of all book objects
  */
-app.get('/books', getAllBooks);
+
 app.get('/bookGet', getAllBooks);
 
 // Function to handle getting all books (reused by both routes)
@@ -115,32 +115,6 @@ function getAllBooks(req, res) {
         console.error('Error in book retrieval route:', error);
         return res.status(500).json({ error: 'Server error' });
     }
-}
-
-/**
- * GET /books/:id - Get a specific book by ID
- * GET /bookGet/:id - Alternative route for getting a specific book (beginner-friendly naming)
- * 
- * Path parameter:
- * - id: The book ID to find
- * 
- * Returns:
- * - 200 OK with book object if found
- * - 404 Not Found if book with ID doesn't exist
- */
-app.get('/books/:id', getBookById);
-app.get('/bookGet/:id', getBookById);
-
-// Function to handle getting a book by ID (reused by both routes)
-function getBookById(req, res) {
-    const books = readBooks();
-    const book = books.find(b => b.bookId === req.params.id);
-    
-    if (!book) {
-        return res.status(404).json({ error: 'Book not found' });
-    }
-    
-    res.json(book);
 }
 
 /**
@@ -161,7 +135,7 @@ function getBookById(req, res) {
  * - 400 Bad Request if book ID already exists
  * - 500 Server Error if failed to save
  */
-app.post('/books', addNewBook);
+
 app.post('/bookAdd', addNewBook);
 
 // Function to handle adding a new book (reused by both routes)
@@ -196,79 +170,6 @@ function addNewBook(req, res) {
         res.status(500).json({ error: 'Failed to save book' });
     }
 }
-
-/**
- * PUT /books/:id - Update an existing book
- * 
- * Path parameter:
- * - id: The book ID to update
- * 
- * Request body: (all fields optional)
- * {
- *   "title": "string",
- *   "author": "string",
- *   "publicationYear": number
- * }
- * 
- * Returns:
- * - 200 OK with updated book object
- * - 404 Not Found if book with ID doesn't exist
- * - 500 Server Error if failed to update
- */
-app.put('/books/:id', (req, res) => {
-    const { title, author, publicationYear } = req.body;
-    const bookId = req.params.id;
-    
-    const books = readBooks();
-    const bookIndex = books.findIndex(b => b.bookId === bookId);
-    
-    if (bookIndex === -1) {
-        return res.status(404).json({ error: 'Book not found' });
-    }
-    
-    // Update book data
-    books[bookIndex] = {
-        ...books[bookIndex],
-        title: title || books[bookIndex].title,
-        author: author || books[bookIndex].author,
-        publicationYear: publicationYear ? parseInt(publicationYear) : books[bookIndex].publicationYear
-    };
-    
-    if (writeBooks(books)) {
-        res.json(books[bookIndex]);
-    } else {
-        res.status(500).json({ error: 'Failed to update book' });
-    }
-});
-
-/**
- * DELETE /books/:id - Delete a book
- * 
- * Path parameter:
- * - id: The book ID to delete
- * 
- * Returns:
- * - 200 OK with success message
- * - 404 Not Found if book with ID doesn't exist
- * - 500 Server Error if failed to delete
- */
-app.delete('/books/:id', (req, res) => {
-    const bookId = req.params.id;
-    const books = readBooks();
-    
-    const initialLength = books.length;
-    const updatedBooks = books.filter(b => b.bookId !== bookId);
-    
-    if (updatedBooks.length === initialLength) {
-        return res.status(404).json({ error: 'Book not found' });
-    }
-    
-    if (writeBooks(updatedBooks)) {
-        res.json({ message: 'Book deleted successfully' });
-    } else {
-        res.status(500).json({ error: 'Failed to delete book' });
-    }
-});
 
 // ===== START SERVER =====
 const PORT = 1337;
